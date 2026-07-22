@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>12-Column Floating Grid Layout</title>
+<!-- Google Web Fonts (Inter) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* Polymath Web Fonts Definition */
+  @font-face {
+    font-family: 'Polymath_Super';
+    src: url('./assets/PolymathDispDemo-Super.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Polymath_Medium';
+    src: url('./assets/PolymathDispDemo-Medium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Polymath_Regular';
+    src: url('./assets/PolymathTextDemo-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: #111111;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    padding: 180px 40px 100px 40px;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .brand-name {
+    font-family: 'Polymath_Super', sans-serif;
+  }
+
+  /* --- Fixed Header Navigation --- */
+  header#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #111111;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    height: 120px;
+    transition: height 0.3s ease;
+    border-bottom: 1px solid #222222;
+  }
+
+  .header-bar-container {
+    width: 100%;
+    height: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  #headerBar {
+    height: 10px;
+    background: #0c9f5a;
+    position: absolute;
+    top: 0;
+    transition: all 0.3s ease;
+  }
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 0;
+  }
+
+  .logo-link {
+    color: #ffffff;
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.0;
+    cursor: pointer;
+  }
+
+  #jeonText {
+    display: block;
+    letter-spacing: 1px;
+    transition: transform 0.3s ease;
+  }
+
+  nav.desktop-nav {
+    display: flex;
+    gap: 120px;
+    align-items: center;
+    position: relative;
+  }
+
+  nav.desktop-nav a {
+    color: #ffffff;
+    font-size: 36px;
+    letter-spacing: 0px;
+    font-family: 'Polymath_Medium', sans-serif;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+  }
+
+  nav.desktop-nav a:hover {
+    opacity: 0.7;
+  }
+
+  /* --- Main Container & Section Title --- */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* Selected Projects 타이틀: 노란색 유지 */
+  .section-title {
+    font-family: 'Polymath_Super', sans-serif;
+    color: rgb(254, 207, 7);
+    font-size: 6em;
+    line-height: 1.1;
+    text-align: left;
+    margin-bottom: 60px;
+    letter-spacing: -0.01em;
+  }
+
+  /* --- Main 12-Column Floating Grid System --- */
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 20px;
+    row-gap: 140px;
+  }
+
+  .block-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .block {
+    background-color: #222222;
+    border: 1px solid #2e2e2e;
+    width: 100%;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  .block:hover {
+    background-color: #2a2a2a;
+    transform: translateY(-6px);
+  }
+
+  /* 사진 위 텍스트 컬러: 화이트로 변경 */
+  .meta {
+    font-family: 'Polymath_Regular', sans-serif;
+    font-size: 1.5em;
+    color: #ffffff;
+    margin-bottom: 0.5em;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+  }
+
+  /* --- Grid Row Configurations --- */
+  /* Top Full Block: 12 Columns */
+  .row0-hero {
+    grid-column: 1 / 13;
+  }
+  .row0-hero .block {
+    height: 680px;
+  }
+
+  /* Row 1: Split 7 : 1(Space) : 4 */
+  .row1-left {
+    grid-column: 1 / 8;
+  }
+  .row1-left .block {
+    height: 480px;
+  }
+
+  .row1-right {
+    grid-column: 9 / 13;
+    margin-top: 80px;
+  }
+  .row1-right .block {
+    height: 540px;
+  }
+
+  /* Row 2: 11-Column Span Block (Left Aligned) */
+  .row2-left-aligned {
+    grid-column: 1 / 12;
+  }
+  .row2-left-aligned .block {
+    height: 620px;
+  }
+
+  /* Row 3: Split 3 : 1(Space) : 8 */
+  .row3-left {
+    grid-column: 1 / 4;
+  }
+  .row3-left .block {
+    height: 420px;
+  }
+
+  .row3-right {
+    grid-column: 5 / 13;
+    margin-top: -30px;
+  }
+  .row3-right .block {
+    height: 520px;
+  }
+
+  /* Row 4: Large Span Block (12 Columns Full Width) */
+  .row4-full {
+    grid-column: 1 / 13;
+  }
+  .row4-full .block {
+    height: 680px;
+  }
+
+  /* Footer: 화이트로 변경 */
+  footer {
+    max-width: 1400px;
+    margin: 180px auto 0 auto;
+    padding-top: 40px;
+    border-top: 1px solid #ffffff;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: 20px;
+    font-family: 'Polymath_Regular', sans-serif;
+    font-size: 13px;
+    color: #ffffff;
+  }
+
+  .footer-left {
+    grid-column: 1 / 6;
+  }
+
+  .footer-right {
+    grid-column: 9 / 13;
+    text-align: right;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 860px) {
+    header#header {
+      padding: 0 20px;
+    }
+    nav.desktop-nav {
+      gap: 30px;
+    }
+    nav.desktop-nav a, .logo-link {
+      font-size: 24px;
+    }
+
+    body {
+      padding-top: 140px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .section-title {
+      font-size: 3.5em;
+      margin-bottom: 40px;
+    }
+
+    .grid-container, footer {
+      grid-template-columns: 1fr;
+      row-gap: 50px;
+    }
+
+    .row0-hero, .row1-left, .row1-right, 
+    .row2-left-aligned, 
+    .row3-left, .row3-right, 
+    .row4-full, 
+    .footer-left, .footer-right {
+      grid-column: 1 / -1;
+      margin-top: 0 !important;
+      text-align: left;
+    }
+
+    .block {
+      height: 320px !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Fixed Header Navigation -->
+  <header id="header">
+    <div class="header-bar-container">
+      <div id="headerBar"></div>
+    </div>
+    <div class="header-content">
+      <a href="#" class="brand-name logo-link">
+        <span style="display: block;">JA<span style="margin-left: -2px;">Y</span></span>
+        <span id="jeonText">JEON</span>
+      </a>
+      <nav class="desktop-nav">
+        <a href="#work" class="brand-name nav-link">Career</a>
+        <a href="#contact" class="brand-name nav-link">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Area -->
+  <main id="work">
+
+    <!-- 노랑컬러 6em 타이틀 -->
+    <h1 class="section-title">Selected Projects</h1>
+
+    <!-- 12-Column Floating Grid System -->
+    <div class="grid-container">
+
+      <!-- Top Row: 12-Column Full Width Hero Image -->
+      <div class="block-wrapper row0-hero">
+        <div class="meta">VivaTech 2026 - Samsung</div>
+        <div class="block"></div>
+      </div>
+
+      <!-- Row 1: Split 7 : 1(Space) : 4 -->
+      <div class="block-wrapper row1-left">
+        <div class="meta">Brand Identification Manuals for Coca-Cola — Book</div>
+        <div class="block"></div>
+      </div>
+
+      <div class="block-wrapper row1-right">
+        <div class="meta">The Frick Collection — Campaign</div>
+        <div class="block"></div>
+      </div>
+
+      <!-- Row 2: 11-Column Block (Left Aligned) -->
+      <div class="block-wrapper row2-left-aligned">
+        <div class="meta">Celestial Bodies — Identity Exhibition</div>
+        <div class="block"></div>
+      </div>
+
+      <!-- Row 3: Split 3 : 1(Space) : 8 -->
+      <div class="block-wrapper row3-left">
+        <div class="meta">AidKit — Mobile App</div>
+        <div class="block"></div>
+      </div>
+
+      <div class="block-wrapper row3-right">
+        <div class="meta">Lyme Academy of Fine Arts — Campaign</div>
+        <div class="block"></div>
+      </div>
+
+      <!-- Row 4: Large Block (12 Columns Full Width) -->
+      <div class="block-wrapper row4-full">
+        <div class="meta">Herman Miller — Identity Motion Guidelines</div>
+        <div class="block"></div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-left">Jay Jeon, BX Designer based in Seoul.</div>
+    <div class="footer-right">&copy; 2026 Jay Jeon. All rights reserved.</div>
+  </footer>
+
+  <!-- Header Dynamic Controller Script -->
+  <script>
+    class HeaderController {
+      constructor() {
+        this.headerHeight = 120;
+        this.init();
+      }
+
+      init() {
+        window.addEventListener('scroll', () => this.handleScroll());
+        window.addEventListener('resize', () => this.updateBarPosition());
+        setTimeout(() => this.updateBarPosition(), 50);
+      }
+
+      handleScroll() {
+        const newHeight = window.scrollY > 100 ? 80 : 120;
+        if (newHeight !== this.headerHeight) {
+          this.headerHeight = newHeight;
+          document.getElementById('header').style.height = newHeight + 'px';
+        }
+        this.updateBarPosition();
+      }
+
+      updateBarPosition() {
+        const header = document.getElementById('header');
+        const logo = document.querySelector('.logo-link');
+        const headerBar = document.getElementById('headerBar');
+        const jeonText = document.getElementById('jeonText');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        if (jeonText) {
+          jeonText.style.transform = this.headerHeight === 80 
+            ? 'translateY(-36px) translateX(75px)' 
+            : 'translateY(0) translateX(0)';
+        }
+
+        navLinks.forEach(link => {
+          link.style.transform = this.headerHeight === 80 
+            ? 'translateY(-20px)' 
+            : 'translateY(0)';
+        });
+
+        if (header && logo && headerBar) {
+          const headerRect = header.getBoundingClientRect();
+          const logoRect = logo.getBoundingClientRect();
+          const extraWidth = this.headerHeight === 80 ? 75 : 0;
+
+          headerBar.style.left = (logoRect.left - headerRect.left) + 'px';
+          headerBar.style.width = (logoRect.width + extraWidth) + 'px';
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      new HeaderController();
+    });
+  </script>
+</body>
+</html>
